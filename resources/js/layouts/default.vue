@@ -1,6 +1,6 @@
 <template>
   <div class="main-layout">
-    <navbar />
+    <!-- <navbar /> -->
     <loading
       :active.sync="isLoading"
       :can-cancel="false"
@@ -9,7 +9,7 @@
       background-color="#fc6011"
       :opacity="1"
     />
-    <div class="container mt-4 pb-4">
+    <div class="">
       <child />
     </div>
   </div>
@@ -30,6 +30,9 @@ export default {
 </script>
 
 <style>
+.img-fit {
+  object-fit: cover;
+}
 @import url('/css/bootstrap.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css');
 /* edit bootstrap */
@@ -67,5 +70,16 @@ body {
 .avatar {
   border-radius: 50%;
   object-fit: cover;
+}
+.text-o {
+  color: #fc6011;
+}
+.br20 {
+  border-radius: 20px;
+}
+.bt-dashed {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 10px;
 }
 </style>

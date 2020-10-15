@@ -14,7 +14,8 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        //
+        $restaurant = Restaurant::with('tables')->get();
+        return $restaurant;
     }
 
     /**
@@ -44,9 +45,15 @@ class RestaurantController extends Controller
      * @param  \App\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function show(Restaurant $restaurant)
+    public function show($id)
     {
-        //
+        $res = Restaurant::find($id);
+        $res->food_recomments;
+        foreach($res->categories as $cat){
+            $cat->foods;
+        }
+
+        return $res;
     }
 
     /**

@@ -12,6 +12,5 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        User::insert([[]]);
     }
 }

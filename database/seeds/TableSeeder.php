@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Table;
+use Facade\Ignition\Tabs\Tab;
+use Illuminate\Support\Str;
 
 class TableSeeder extends Seeder
 {
@@ -11,6 +14,21 @@ class TableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Table::insert([
+            //1
+            [
+                'name' => 'โต๊ะ1',
+                'key' =>  (string) Str::uuid(),
+
+                'restaurant_id' => 1
+            ],
+            //2
+            [
+                'name' => 'โต๊ะ2',
+                'key' =>  (string) Str::uuid(),
+
+                'restaurant_id' => 1
+            ],
+        ]);
     }
 }
