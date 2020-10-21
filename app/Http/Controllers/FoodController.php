@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class FoodController extends Controller
 {
-    private $mainModel;
+   private $mainModel;
 
     public function __construct()
     {
@@ -47,7 +47,6 @@ class FoodController extends Controller
     public function show($id)
     {
         $show = $this->mainModel::find($id);
-        $show->category;
         return [
             "result" => $show
         ];

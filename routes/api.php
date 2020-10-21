@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+function crud($name, $controller)
+{
+    Route::resource("{$name}", "{$controller}");
+    Route::post("{$name}/{id}/delete", "{$controller}@destroy");
+    Route::post("{$name}/{id}/update", "{$controller}@update");
+}
 
 function crud($name, $controller)
 {
