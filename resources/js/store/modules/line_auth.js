@@ -8,7 +8,7 @@ let url = {
 // state
 export const state = {
   user: {
-    id: 123456,
+    id: 'U98a51562ca53bb6d5f844da8399e2a01',
     image_url: '/assets/images/user-de.jpg',
     email: 'test@gmail.com',
     detail: {}

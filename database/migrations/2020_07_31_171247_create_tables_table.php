@@ -16,7 +16,7 @@ class CreateTablesTable extends Migration
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('slot');
+            // $table->integer('slot');
             $table->string('key')->null();
             $table->bigInteger('restaurant_id')->unsigned()->nullable();
             $table->foreign('restaurant_id')

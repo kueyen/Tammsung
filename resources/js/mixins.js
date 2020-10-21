@@ -39,14 +39,14 @@ export default {
     async initializeLiff(myLiffId) {
       this.loadingStart()
       let _this = this
-      await this.$liff.init({ liffId: myLiffId }, async () => {
-        if (_this.$liff.isLoggedIn()) {
-          await this.getProfile()
-          _this.loadingStop()
-        } else {
-          _this.$liff.login()
-        }
-      })
+      await this.$liff.init({ liffId: myLiffId })
+
+      if (this.$liff.isLoggedIn()) {
+        await this.getProfile()
+        this.loadingStop()
+      } else {
+        this.$liff.login()
+      }
 
       console.log('liff end')
     },
@@ -54,9 +54,9 @@ export default {
       let _this = this
       const profile = await this.$liff.getProfile()
 
-      this.checkRegister(profile.userId)
+      // this.checkRegister(profile.userId)
 
-      console.log(profile, profile.userID)
+      // console.log(profile, profile.userID)
 
       await this.fethUser({
         id: profile.userId,

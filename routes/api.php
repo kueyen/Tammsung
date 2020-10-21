@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+function crud($name, $controller)
+{
+    Route::resource("{$name}", "{$controller}");
+    Route::post("{$name}/{id}/delete", "{$controller}@destroy");
+    Route::post("{$name}/{id}/update", "{$controller}@update");
+}
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
@@ -36,3 +43,12 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 });
 Route::get('line/user/check/register', 'Line\UserController@checkRegistered');
+Route::resource('res', 'RestaurantController');
+Route::post('table/add', 'TableController@add');
+
+Route::post('webHook', 'Line\WebhookController@index');
+
+Route::post('addbill', 'BillController@addBill');
+Route::post('closebill', 'BillController@closeBill');
+
+crud('foods', 'FoodController');

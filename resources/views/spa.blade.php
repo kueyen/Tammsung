@@ -8,6 +8,14 @@
 
     <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ mix('dist/css/app.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="app"></div>
@@ -19,5 +27,15 @@
 
     {{-- Load the application scripts --}}
     <script src="{{ mix('dist/js/app.js') }}"></script>
+    <style>
+      body,
+      html,
+      input,
+      textarea,
+      select,
+      option {
+        font-family: 'Mitr', sans-serif;
+      }
+    </style>
   </body>
 </html>

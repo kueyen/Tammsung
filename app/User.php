@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'line_user_id', 'is_set_password', 'role', 'restaurant_id', 'email', 'tel', 'password',
+        'first_name', 'last_name', 'line_user_id', 'is_set_password', 'role', 'restaurant_id', 'email', 'tel', 'password', 'table_id'
     ];
 
     /**
@@ -104,5 +104,10 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function table()
+    {
+        return $this->belongsTo(Table::class);
     }
 }

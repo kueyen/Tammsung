@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-8 m-auto">
-      <card title="ลงทะเบียน">
+      <card v-if="pageCase == 1" title="ลงทะเบียน">
         <form @submit.prevent="register" @keydown="form.onKeydown($event)">
           <div class="text-center">
             <img :src="user.image_url" width="200" height="200" class="avatar" />
@@ -12,7 +12,9 @@
             <div class="col-md-12">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-user"/></span>
+                  <span class="input-group-text">
+                    <i class="fas fa-user" />
+                  </span>
                 </div>
                 <input
                   v-model="form.first_name"
@@ -32,7 +34,9 @@
             <div class="col-md-12">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-user"/></span>
+                  <span class="input-group-text">
+                    <i class="fas fa-user" />
+                  </span>
                 </div>
                 <input
                   v-model="form.last_name"
@@ -53,7 +57,9 @@
             <div class="col-md-12">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-envelope"/></span>
+                  <span class="input-group-text">
+                    <i class="fas fa-envelope" />
+                  </span>
                 </div>
                 <input
                   v-model="form.email"
@@ -74,7 +80,9 @@
             <div class="col-md-12">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-phone"/></span>
+                  <span class="input-group-text">
+                    <i class="fas fa-phone" />
+                  </span>
                 </div>
                 <input
                   v-model="form.tel"
@@ -91,14 +99,22 @@
           </div>
 
           <div class="form-group row">
-            <div class="col-md-12  d-flex">
+            <div class="col-md-12 d-flex">
               <!-- Submit Button -->
-              <v-button :loading="form.busy" class="w-100">
-                ลงทะเบียน
-              </v-button>
+              <v-button :loading="form.busy" class="w-100">ลงทะเบียน</v-button>
             </div>
           </div>
         </form>
+      </card>
+      <card v-else-if="pageCase == 2">
+        ลงทะเบียนเสร็จสิ้น
+        <hr />ขอบคุณสำหรับการลงทะเบียน
+        <v-button class="w-100" @click="closeWindow()">ปิดหน้านี้</v-button>
+      </card>
+      <card v-else-if="pageCase == 3">
+        ขออภัย
+        <hr />คุณได้ทำการลงทะเบียนแล้ว
+        <v-button class="w-100" @click="closeWindow()">ปิดหน้านี้</v-button>
       </card>
     </div>
   </div>
@@ -115,43 +131,48 @@ export default {
   },
 
   data: () => ({
+    pageCase: 0,
     form: new Form({
       first_name: '',
       last_name: '',
       line_user_id: 1,
       email: '',
-      tel: ''
+      tel: '',
 
       // password: '',
       // password_confirmation: ''
-    })
+    }),
   }),
   watch: {
     async user() {
+      this.loadingStop()
+
       const { data } = await axios.get(`/api/line/user/check/register?line_user_id=${this.user.id}`)
 
       if (data.result.isRegistered) {
-        alert('มึงลงทะเบียนแล้ว')
-        this.closeWindow()
+        this.pageCase = 3
+      } else {
+        this.pageCase = 1
       }
 
       this.form.email = this.user.email
       this.form.line_user_id = this.user.id
-    }
+    },
   },
   async created() {
-    await this.initializeLiff('1654463041-BP37a3GE')
+    await this.initializeLiff('1654579616-o707RL0n')
   },
 
   methods: {
     async register() {
       // Register the user.
+
       const { data, status } = await this.form.post('/api/register')
 
       if (status == 200) {
-        alert('ลงทะเบียนสำเร็จ')
+        this.pageCase = 2
       }
-    }
-  }
+    },
+  },
 }
 </script>

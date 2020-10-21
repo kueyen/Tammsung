@@ -9,3 +9,6 @@ export const LOADING = 'LOADING'
 
 // lang.js
 export const SET_LOCALE = 'SET_LOCALE'
+
+export const SET_RES = 'SET_RES'
+export const SET_CART = 'SET_CART'

@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_set_password')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->bigInteger('table_id')->unsigned()->nullable();
             $table->integer('role')->comment('1.user 2.admin 3.manager 4.employee')->default(1);
             $table->rememberToken();
             $table->timestamps();

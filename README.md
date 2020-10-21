@@ -1,1 +1,1 @@
-Tammsung
+SNP63Taamsung

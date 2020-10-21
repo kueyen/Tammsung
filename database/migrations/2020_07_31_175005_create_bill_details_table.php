@@ -21,6 +21,8 @@ class CreateBillDetailsTable extends Migration
             $table->integer('price');
             $table->integer('price_sum');
             $table->integer('amount');
+            $table->integer('status')->default(1)->comment('1.รออาหาร 2.สำเร็จ 3.ผิดพลาดหรือยกเลิก');
+
             $table->foreign('bill_id')
                 ->references('id')
                 ->on('bills')

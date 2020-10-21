@@ -2,16 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\table;
+use App\Table;
+use App\User;
+
 use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function add(Request $request)
+    {
+        $table = Table::where('key', $request->key)->first();
+        $user = User::where('line_user_id', $request->user_id)->first();
+
+        $user->update([
+            'table_id' =>
+            $table->id
+        ]);
+
+        return [
+            'status' => '200',
+        ];
+    }
     public function index()
     {
         //
