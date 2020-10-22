@@ -14,7 +14,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        $restaurant = Restaurant::with('tables')->get();
+        $restaurant = Restaurant::with('tables')->withCount('foods')->get();
         return $restaurant;
     }
 
@@ -49,7 +49,7 @@ class RestaurantController extends Controller
     {
         $res = Restaurant::find($id);
         $res->food_recomments;
-        foreach($res->categories as $cat){
+        foreach ($res->categories as $cat) {
             $cat->foods;
         }
 

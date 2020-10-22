@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button @click="$emit('back', food.category.restaurant_id)">back</button>
+    <div class="position-absolute">
+      <button class="btn btn-primary m-2 w-100 " @click="$emit('back', food.category.restaurant_id)"><i class="fas fa-chevron-left"></i></button>
+      <!-- <button @click="$emit('back', food.category.restaurant_id)"><i class="fas fa-chevron-left"></i></button> -->
+    </div>
+    
     <img :src="food.image_url" class="w-100 img-fit" height="200" />
 
     <div class="pb-4">

@@ -75,7 +75,18 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'เครื่องดื่ม',
                 'restaurant_id' => 1
+            ],
+            //13
+            [
+                'name' => 'อาหารจานหลัก',
+                'restaurant_id' => 2
+            ],
+            //14
+            [
+                'name' => 'ประเภทสลัด',
+                'restaurant_id' => 2
             ]
+            
             // **
         ]);
     }
