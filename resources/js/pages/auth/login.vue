@@ -7,7 +7,13 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
             <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
+              <input
+                v-model="form.email"
+                :class="{ 'is-invalid': form.errors.has('email') }"
+                class="form-control"
+                type="email"
+                name="email"
+              />
               <has-error :form="form" field="email" />
             </div>
           </div>
@@ -16,7 +22,13 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label text-md-right">{{ $t('password') }}</label>
             <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
+              <input
+                v-model="form.password"
+                :class="{ 'is-invalid': form.errors.has('password') }"
+                class="form-control"
+                type="password"
+                name="password"
+              />
               <has-error :form="form" field="password" />
             </div>
           </div>
@@ -63,7 +75,7 @@ export default {
     LoginWithGithub
   },
 
-  metaInfo () {
+  metaInfo() {
     return { title: this.$t('login') }
   },
 
@@ -76,7 +88,7 @@ export default {
   }),
 
   methods: {
-    async login () {
+    async login() {
       // Submit the form.
       const { data } = await this.form.post('/api/login')
 
@@ -90,7 +102,7 @@ export default {
       await this.$store.dispatch('auth/fetchUser')
 
       // Redirect home.
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'adminHome' })
     }
   }
 }

@@ -12,6 +12,8 @@ class UserController extends Controller
     {
         $find = User::where('line_user_id', $request->line_user_id)->first();
 
+
+
         $isRegistered = $find ? true : false;
 
         return response()->json([

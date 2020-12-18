@@ -17,6 +17,7 @@ export default {
   computed: {
     ...mapGetters({
       user: 'line_auth/user',
+      auth: 'auth/user',
       isLoading: 'loading/isLoading'
     })
   },

@@ -7,79 +7,81 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $mainModel;
+
+    public function __construct()
     {
-        //
+        $this->mainModel = new Category();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $showItem = $request->item ? $request->item : 10;
+        $keyword = $request->q ? $request->q : '';
+        $sortBy = $request->sortBy ? $request->sortBy : 'desc';
+
+
+        $items = $this->mainModel::where(function ($q) use ($keyword) {
+            $q->orWhere('name', 'LIKE', "%$keyword%");
+        })->where(function ($q) {
+            $uid = request()->user()->restaurant_id;
+            if ($uid) {
+                $q->where('restaurant_id', $uid);
+            }
+        })->orderBy('created_at', $sortBy)->paginate($showItem);
+
+        return [
+            "items" =>
+            $items
+        ];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $uid = request()->user()->restaurant_id;
+        $req = $request->all();
+        $req['restaurant_id'] = $uid;
+        $item = $this->mainModel::create($req);
+
+        if (!$item) {
+            return response()->json([
+                "message" => 'create failed'
+            ], 400);
+        }
+        return ["message" => 'success'];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
+
+    public function show($id)
     {
-        //
+        $show = $this->mainModel::find($id);
+        $show->category;
+        return [
+            "result" => $show
+        ];
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
+
+    public function update($id, Request $request)
     {
-        //
+        $item = $this->mainModel::find($id);
+
+        $update = $item->update($request->all());
+
+
+        if (!$update) {
+            return response()->json([
+                "message" => 'update failed'
+            ], 400);
+        }
+
+        return 'ok';
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Category $category)
-    {
-        //
+        $item = $this->mainModel::find($id);
+        $item->delete();
+        return 'ok';
     }
 }

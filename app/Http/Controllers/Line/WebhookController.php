@@ -9,12 +9,19 @@ use App\Table;
 use App\Log;
 use App\Restaurant;
 use Illuminate\Http\Request;
-
+use Krit\LineBot;
 
 class WebhookController extends Controller
 {
 
+    private $bot;
 
+
+
+    public function __construct()
+    {
+        $this->bot = new LineBot('1RJVFAn7A09mJIUAj3sfgxTvzic1p51CXhP9Mwx8j1xRdjSWUwXTMmkq7TNgLIrcdMHPbjFcFCpDxeU3JQ40o8Vp9EEisJmZEOiK4m0sMBNczICWYZLOHGBG5F+xfYX+uFVrn1CPqjXfxXg8HzLdSgdB04t89/1O/w1cDnyilFU=');
+    }
 
     public function index(Request $request)
     {
@@ -30,20 +37,27 @@ class WebhookController extends Controller
                         $text = $event['message']['text'];
                         $userID = $event['source']['userId'];
                         // checkUser Register
+
+
+                        $this->bot->setReplyToken($reply_token);
+                        $this->bot->setUser($userID);
+
                         $checkRegister = $this->checkRegister($userID);
 
                         if ($checkRegister != true) {
 
-                            $this->sendRegisterImage($reply_token);
+                            $this->sendRegisterImage();
                             return false;
                         }
 
 
                         // LOGIC FROM REPLY MESSAGE //
                         if ($text == '#สั่งอาหาร') {
-                            $this->sendFoodList($reply_token, $userID);
+                            $this->sendFoodList();
                         }
-                      
+
+
+
                         // END LOGIC FROM REPLY MESSAGE //
 
 
@@ -54,7 +68,7 @@ class WebhookController extends Controller
 
             return 'ok';
         } catch (\Exception $e) {
-            $this->sendText($reply_token, $e->getMessage());
+            return $request->all();
         }
 
 
@@ -63,81 +77,30 @@ class WebhookController extends Controller
 
     }
 
-    function sendRegisterImage($reply_token)
+    function sendRegisterImage()
     {
-        $m = [
-            [
-                "type" => "flex",
-                "altText" => "กรุณาทำการลงทะเบียนก่อนใช้งานฟังชันดังกล่าว",
-                "contents" => array(
-                    'type' => 'carousel',
-                    'contents' => [array(
-                        'type' => 'bubble',
-                        'hero' =>
-                        array(
-                            'type' => 'image',
-                            'url' => url('images/registerBanner.jpg'),
-                            'size' => 'full',
-                            'aspectRatio' => '30:26',
-                            'aspectMode' => 'cover',
-                            'action' =>
-                            array(
-                                'type' => 'uri',
-                                'uri' => 'https://liff.line.me/1654579616-o707RL0n',
-                            ),
-                        ),
-                    )]
-
-                )
-            ],
-        ];
-        $data = [
-            'replyToken' => $reply_token,
-            'messages' =>  $m
-        ];
-
-        $post_body = json_encode($data, JSON_UNESCAPED_UNICODE);
-
-        $send_result = $this->send_reply_message($post_body);
+        return $this->bot
+            ->addImageURI(
+                'กรุณาทำการลงทะเบียนก่อนใช้งานฟังชันดังกล่าว',
+                url('images/registerBanner.jpg'),
+                'https://liff.line.me/1654579616-o707RL0n',
+                30,
+                26
+            )
+            ->reply();
     }
 
 
-    function sendScanTableImage($reply_token)
+    function sendScanTableImage()
     {
-        $m = [
-            [
-                "type" => "flex",
-                "altText" => "กรุณาทำการสแกน Qr Code ของโต๊ะอาหาร ก่อนใช้งานฟังชันดังกล่าว",
-                "contents" => array(
-                    'type' => 'carousel',
-                    'contents' => [array(
-                        'type' => 'bubble',
-                        'hero' =>
-                        array(
-                            'type' => 'image',
-                            'url' => url('images/qrcode.jpg'),
-                            'size' => 'full',
-                            'aspectRatio' => '30:26',
-                            'aspectMode' => 'cover',
-                            'action' =>
-                            array(
-                                'type' => 'uri',
-                                'uri' => 'https://line.me/R/nv/QRCodeReader',
-                            ),
-                        ),
-                    )]
-
-                )
-            ],
-        ];
-        $data = [
-            'replyToken' => $reply_token,
-            'messages' =>  $m
-        ];
-
-        $post_body = json_encode($data, JSON_UNESCAPED_UNICODE);
-
-        $send_result = $this->send_reply_message($post_body);
+        return $this->bot
+            ->addImageScanQR(
+                'กรุณาทำการสแกน Qr Code ของโต๊ะอาหาร ก่อนใช้งานฟังชันดังกล่าว',
+                url('images/qrcode.jpg'),
+                30,
+                26
+            )
+            ->reply();
     }
 
     function sendText($reply_token, $text)
@@ -157,15 +120,15 @@ class WebhookController extends Controller
 
         $send_result = $this->send_reply_message($post_body);
     }
-    public function sendFoodList($reply_token, $user_id)
+    public function sendFoodList()
     {
 
         $cards = [];
 
-        $user = User::where('line_user_id', $user_id)->first();
+        $user = $this->bot->getUser();
         if (!$user->table_id) {
             // return $this->sendPleaseAddHome($reply_token, 'payment');
-            $this->sendScanTableImage($reply_token);
+            $this->sendScanTableImage();
         }
         $table = Table::find($user->table_id);
         $restaurant = Restaurant::whereId($table->restaurant_id)->withCount('foods')->first();
@@ -174,7 +137,7 @@ class WebhookController extends Controller
                 $q->where('restaurant_id', $table->restaurant_id);
             })->where('is_recommend', 1)->limit(4)->get();
         } catch (\Exception $e) {
-            $this->sendText($reply_token, $e->getMessage());
+            // $this->sendText($reply_token, $e->getMessage());
         }
 
 
@@ -268,44 +231,7 @@ class WebhookController extends Controller
         ]);
 
 
-
-        $m = [
-            [
-                "type" => "flex",
-                "altText" => "Foodlist",
-                "contents" => array(
-                    'type' => 'carousel',
-                    'contents' => $generateCard,
-
-                ),
-            ],
-        ];
-
-
-
-        $data = [
-            'replyToken' => $reply_token,
-            'messages' => $m,
-        ];
-
-
-
-
-        $post_body = json_encode($data, JSON_UNESCAPED_UNICODE);
-
-
-
-
-
-        $send_result = $this->send_reply_message($post_body);
-
-        Log::create([
-            'message' => 'Result: ' . $send_result . '\r\n',
-            'reply_token' => $reply_token,
-            // 'post_body' => $post_body,
-        ]);
-
-        return  $send_result;
+        return  $this->bot->addCarousel('กรุณาเลือกรายการเพื่อสั่งอาหาร', $generateCard)->reply();
     }
 
 

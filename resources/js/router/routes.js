@@ -1,7 +1,25 @@
 function page(path) {
   return () => import(/* webpackChunkName: '' */ `~/pages/${path}`).then(m => m.default || m)
 }
-
+function cruGen(path, name) {
+  return [
+    {
+      path: `${path}`,
+      name: path,
+      component: page(`admin/${name}/${name}.vue`)
+    },
+    {
+      path: `${path}/create`,
+      name: `${path}.create`,
+      component: page(`admin/${name}/form.vue`)
+    },
+    {
+      path: `${path}/:id/edit`,
+      name: `${path}.edit`,
+      component: page(`admin/${name}/form.vue`)
+    }
+  ]
+}
 export default [
   { path: '/', name: 'welcome', component: page('welcome.vue') },
   { path: '/scan/callback', name: 'scan', component: page('scanCallback.vue') },
@@ -46,6 +64,26 @@ export default [
     path: '/menus/show',
     name: 'menu.show',
     component: page('menu/menuShow.vue')
+  },
+  {
+    path: '/payments',
+    name: 'payment',
+    component: page('payments/payment.vue')
+  },
+  {
+    path: '/admin',
+    component: page('admin/index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'adminHome',
+        component: page('admin/adminDashboard.vue')
+      },
+      ...cruGen('categories', 'categories'),
+      ...cruGen('foods', 'foods'),
+      ...cruGen('tables', 'tables')
+
+    ]
   },
 
   { path: '*', component: page('errors/404.vue') }

@@ -17,12 +17,14 @@ class CreateTablesTable extends Migration
             $table->id();
             $table->string('name');
             // $table->integer('slot');
-            $table->string('key')->null();
+            $table->string('key')->nullable();
             $table->bigInteger('restaurant_id')->unsigned()->nullable();
             $table->foreign('restaurant_id')
                 ->references('id')
                 ->on('restaurants')
                 ->onDelete('cascade');
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

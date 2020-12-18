@@ -6,6 +6,8 @@ import App from '~/components/App'
 
 import '~/plugins'
 import '~/components'
+import '~/adminImport'
+
 import liff from '@line/liff'
 import Mixins from './mixins'
 Vue.mixin(Mixins)

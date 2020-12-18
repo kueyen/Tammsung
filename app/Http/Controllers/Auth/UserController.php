@@ -15,6 +15,8 @@ class UserController extends Controller
      */
     public function current(Request $request)
     {
-        return response()->json($request->user());
+        $user =  $request->user();
+        $user->restaurant;
+        return response()->json($user);;
     }
 }

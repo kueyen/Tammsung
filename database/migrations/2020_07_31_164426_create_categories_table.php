@@ -21,6 +21,8 @@ class CreateCategoriesTable extends Migration
                 ->references('id')
                 ->on('restaurants')
                 ->onDelete('cascade');
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

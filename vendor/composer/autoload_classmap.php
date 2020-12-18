@@ -39,6 +39,7 @@ return array(
     'App\\Http\\Controllers\\Settings\\ProfileController' => $baseDir . '/app/Http/Controllers/Settings/ProfileController.php',
     'App\\Http\\Controllers\\SpaController' => $baseDir . '/app/Http/Controllers/SpaController.php',
     'App\\Http\\Controllers\\TableController' => $baseDir . '/app/Http/Controllers/TableController.php',
+    'App\\Http\\Controllers\\UploadController' => $baseDir . '/app/Http/Controllers/UploadController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',
