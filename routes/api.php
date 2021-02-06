@@ -52,15 +52,33 @@ Route::post('webHook', 'Line\WebhookController@index');
 
 Route::post('addbill', 'BillController@addBill');
 Route::post('closebill', 'BillController@closeBill');
+Route::get('testjson', 'BillController@test');
+Route::get('test', 'Line\WebhookController@test');
 
 crud('foods', 'FoodController');
 crud('categories', 'CategoryController');
 crud('tables', 'TableController');
+crud('orders', 'OrderController');
+crud('promotions', 'PromotionController');
+
+crud('sa_promotions', 'PromotionController');
+Route::post("sa_promotions/{id}/push", "PromotionController@push");
+
 
 Route::post("tables/{id}/kick", "TableController@kick");
 
 
 Route::get('a', function () {
-    $bot = new LineBot('1RJVFAn7A09mJIUAj3sfgxTvzic1p51CXhP9Mwx8j1xRdjSWUwXTMmkq7TNgLIrcdMHPbjFcFCpDxeU3JQ40o8Vp9EEisJmZEOiK4m0sMBNczICWYZLOHGBG5F+xfYX+uFVrn1CPqjXfxXg8HzLdSgdB04t89/1O/w1cDnyilFU=');
-    return $bot->setUser('U98a51562ca53bb6d5f844da8399e2a01')->addText('aad')->getUser();
+    $bill_id = 133;
+    $data = array(
+        'to' => 'dqwoiwqd',
+        'messages' => [
+            [
+                'type' => 'text',
+                'text' => "ทำการสั่งอาหารสำเร็จ กรุณารออาหารสักครู่ | เลขบิล#{$bill_id}"
+            ]
+        ]
+    );
+
+    return json_encode($data, true);
 });

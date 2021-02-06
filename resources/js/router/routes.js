@@ -1,22 +1,22 @@
 function page(path) {
   return () => import(/* webpackChunkName: '' */ `~/pages/${path}`).then(m => m.default || m)
 }
-function cruGen(path, name) {
+function cruGen(path, name,start = 'admin') {
   return [
     {
       path: `${path}`,
       name: path,
-      component: page(`admin/${name}/${name}.vue`)
+      component: page(`${start}/${name}/${name}.vue`)
     },
     {
       path: `${path}/create`,
       name: `${path}.create`,
-      component: page(`admin/${name}/form.vue`)
+      component: page(`${start}/${name}/form.vue`)
     },
     {
       path: `${path}/:id/edit`,
       name: `${path}.edit`,
-      component: page(`admin/${name}/form.vue`)
+      component: page(`${start}/${name}/form.vue`)
     }
   ]
 }
@@ -81,7 +81,26 @@ export default [
       },
       ...cruGen('categories', 'categories'),
       ...cruGen('foods', 'foods'),
-      ...cruGen('tables', 'tables')
+      ...cruGen('tables', 'tables'),
+      ...cruGen('orders', 'orders'),
+      ...cruGen('promotions', 'promotions')
+
+
+    ]
+  },
+
+  {
+    path: '/superAdmin',
+    component: page('superAdmin/index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'superAdminHome',
+        component: page('superAdmin/adminDashboard.vue')
+      },
+      ...cruGen('sa_promotions', 'sa_promotions','superAdmin'),
+      
+
 
     ]
   },

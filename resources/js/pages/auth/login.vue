@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row mt-5">
     <div class="col-lg-8 m-auto">
       <card :title="$t('login')">
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">
@@ -101,9 +101,20 @@ export default {
       // Fetch the user.
       await this.$store.dispatch('auth/fetchUser')
 
-      // Redirect home.
+      if (this.auth.role == 2) {
+        // Redirect home.
+        this.$router.push({ name: 'superAdminHome' })
+        return 0
+      }
+
       this.$router.push({ name: 'adminHome' })
     }
   }
 }
 </script>
+
+<style>
+body {
+  background-color: #d84c05;
+}
+</style>

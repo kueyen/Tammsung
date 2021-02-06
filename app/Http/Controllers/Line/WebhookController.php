@@ -17,7 +17,6 @@ class WebhookController extends Controller
     private $bot;
 
 
-
     public function __construct()
     {
         $this->bot = new LineBot('1RJVFAn7A09mJIUAj3sfgxTvzic1p51CXhP9Mwx8j1xRdjSWUwXTMmkq7TNgLIrcdMHPbjFcFCpDxeU3JQ40o8Vp9EEisJmZEOiK4m0sMBNczICWYZLOHGBG5F+xfYX+uFVrn1CPqjXfxXg8HzLdSgdB04t89/1O/w1cDnyilFU=');
@@ -25,6 +24,7 @@ class WebhookController extends Controller
 
     public function index(Request $request)
     {
+
 
 
 
@@ -56,6 +56,14 @@ class WebhookController extends Controller
                             $this->sendFoodList();
                         }
 
+                        if ($text == 'คะแนนสะสม') {
+                            $user = $this->bot->getUser();
+                            $user->update([
+                                'table_id' => 1
+                            ]);
+                        }
+
+
 
 
                         // END LOGIC FROM REPLY MESSAGE //
@@ -75,6 +83,13 @@ class WebhookController extends Controller
 
         // Failed
 
+    }
+
+    public function test()
+    {
+        $this->bot->setUser('U98a51562ca53bb6d5f844da8399e2a01');
+
+        return $this->bot->addText('a')->getUser();
     }
 
     function sendRegisterImage()

@@ -9,6 +9,9 @@
                 <img src="/images/taamsung_w.png" width="20%" /><br />
                 <div class="mt-2">จัดการร้านค้า</div>
                 <hr />
+
+                <button class="btn btn-outline-light" @click="logout">Log Out</button>
+                <hr />
               </div>
             </sidebar-menu>
           </div>
@@ -34,47 +37,66 @@ import { SidebarMenu } from 'vue-sidebar-menu'
 
 export default {
   components: {
-    SidebarMenu,
+    SidebarMenu
   },
   data: () => ({
     menu: [
       {
         header: true,
         title: 'Loading...',
-        hiddenOnCollapse: true,
+        hiddenOnCollapse: true
       },
       {
         href: '/admin',
         title: 'Dashboard',
-        icon: 'fas fa-home',
+        icon: 'fas fa-home'
       },
-
       {
-        title: 'Food',
-        icon: 'fas fa-home',
-        child: [
-          {
-            href: '/admin/categories',
-            title: 'Category',
-          },
-          {
-            href: '/admin/foods',
-            title: 'Food List',
-          },
-        ],
+        href: '/admin/orders',
+        title: 'Orders',
+        icon: 'fas fa-clipboard-check'
+      },
+      {
+        href: '/admin/promotions',
+        title: 'Promotion',
+        icon: 'fas fa-ad'
       },
       {
         href: '/admin/tables',
         title: 'Table',
-        icon: 'fas fa-table',
+        icon: 'fas fa-table'
       },
-    ],
+
+      {
+        title: 'Food',
+        icon: 'fas fa-utensils',
+        child: [
+          {
+            href: '/admin/categories',
+            title: 'Category'
+          },
+          {
+            href: '/admin/foods',
+            title: 'Food List'
+          }
+        ]
+      }
+    ]
   }),
+  methods: {
+    async logout() {
+      // Log out the user.
+      await this.$store.dispatch('auth/logout')
+
+      // Redirect to login.
+      this.$router.push({ name: 'login' })
+    }
+  },
   created() {
     if (this.auth.restaurant) {
       this.menu[0].title = `ร้าน ${this.auth.restaurant.name}`
     }
-  },
+  }
 }
 </script>
 
