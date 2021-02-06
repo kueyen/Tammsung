@@ -36,7 +36,7 @@ class table extends Model
     }
     public function getUpdatedAtTextAttribute()
     {
-        return $this->created_at ? \Carbon\Carbon::parse($this->created_at)->format('d/m/Y H:i:s') : '-';
+        return $this->created_at ? \Carbon\Carbon::parse($this->updated_at)->format('d/m/Y H:i:s') : '-';
     }
 
     public function foods()

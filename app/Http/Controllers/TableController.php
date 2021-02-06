@@ -69,7 +69,7 @@ class TableController extends Controller
             if ($uid) {
                 $q->where('restaurant_id', $uid);
             }
-        })->orderBy('created_at', $sortBy)->with('latest_bills')->paginate($showItem);
+        })->orderBy('created_at', $sortBy)->with('latest_bills')->with('latest_bills.details.food')->paginate($showItem);
 
         return [
             "items" =>
