@@ -26,6 +26,8 @@ class BillController extends Controller
         $forms = [];
         // ประกาศสร้างตัวแปรก่อน save
 
+
+        //1,4,6
         foreach ($request->carts as $cart) {
             // loop ค่าที่ได้จาก req carts ที่ vue ส่งมา
             $food = Food::find($cart['id']);
@@ -105,7 +107,7 @@ class BillController extends Controller
         $billList = [];
         $amount = 0;
         $price = 0;
-        foreach ($bill->details as $detail) {
+        foreach ($bill->detail_s as $detail) {
             $amount += $detail->amount;
             $price  += $detail->price_sum;
 
@@ -293,6 +295,22 @@ class BillController extends Controller
 
 
         return ['message' => 'success'];
+    }
+    public function test()
+    {
+        $data = [
+            'to' => 'U98a51562ca53bb6d5f844da8399e2a01',
+            'messages' => [
+                ['type' => 'text', 'text' => 'hello'],
+                ['type' => 'text', 'text' => 'xxxx']
+
+            ]
+        ];
+
+        $post_body = json_encode($data, JSON_UNESCAPED_UNICODE);
+
+
+        return $send_result = $this->send_push_message($post_body);
     }
 
     public function send_push_message($post_body)

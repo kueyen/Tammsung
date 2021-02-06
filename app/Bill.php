@@ -12,6 +12,11 @@ class Bill extends Model
     {
         return $this->hasMany(BillDetail::class);
     }
+
+    public function detail_s()
+    {
+        return $this->hasMany(BillDetail::class)->whereStatus(2);
+    }
     public function table()
     {
         return $this->belongsTo(Table::class);
