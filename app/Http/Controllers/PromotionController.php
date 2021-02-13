@@ -92,14 +92,14 @@ class PromotionController extends Controller
 
 
         $user_ids = User::whereNotNull('line_user_id')
-            ->whereIn('id', [1])
+            ->whereIn('id', [1, 4, 5])
             ->get()->pluck('line_user_id');
 
         $data = [
             "to" => $user_ids,
             "messages" => []
         ];
-
+        //push5
         if ($item->text) {
             array_push($data['messages'], [
                 "type" => "text",

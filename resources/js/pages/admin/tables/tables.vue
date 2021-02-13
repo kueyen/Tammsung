@@ -7,7 +7,9 @@
         </div>
         <div class="float-left ml-2">
           <router-link :to="{ name: `${$route.name}.create` }">
-            <button class="btn btn-success">Add <i class="fas fa-plus"></i></button>
+            <button class="btn btn-success">
+              Add <i class="fas fa-plus"></i>
+            </button>
           </router-link>
         </div>
         <div class="float-left ml-2">
@@ -21,8 +23,16 @@
         <div class="float-left form-inline">
           <div class="form-group">
             <label>Show</label>
-            <select v-model="showItem" class="form-control mx-2" @change="fetch()">
-              <option :value="item.v" v-for="item in showItemOptions" :key="item.v">
+            <select
+              v-model="showItem"
+              class="form-control mx-2"
+              @change="fetch()"
+            >
+              <option
+                :value="item.v"
+                v-for="item in showItemOptions"
+                :key="item.v"
+              >
                 {{ item.t }}
               </option>
             </select>
@@ -33,7 +43,11 @@
         <div class="float-right form-inline">
           <div class="form-group">
             <label>Sort By:</label>
-            <select v-model="sortBy" @change="fetch()" class="form-control ml-2">
+            <select
+              v-model="sortBy"
+              @change="fetch()"
+              class="form-control ml-2"
+            >
               <option value="desc">Sort Newest to Oldest</option>
               <option value="asc">Sort Oldest to Newest</option>
             </select>
@@ -55,7 +69,10 @@
           </div>
         </div>
         <div class="float-right">
-          <pagination :data="items" @pagination-change-page="fetch"></pagination>
+          <pagination
+            :data="items"
+            @pagination-change-page="fetch"
+          ></pagination>
         </div>
       </div>
       <!-- ////////// Paginate TOP //////////-->
@@ -65,7 +82,10 @@
           <img :src="data.item.image_url" height="100" />
         </template>
         <template v-slot:cell(actions)="data">
-          <button class="btn btn-primary btn-sm" @click="showQr(data.item.qr_url)">
+          <button
+            class="btn btn-primary btn-sm"
+            @click="showQr(data.item.qr_url)"
+          >
             <i class="fas fa-qrcode"></i> QR Code
           </button>
 
@@ -83,8 +103,12 @@
           >
             <i class="far fa-window-close"></i> Kick
           </button>
-          <router-link :to="{ name: `${$route.name}.edit`, params: { id: data.item.id } }">
-            <button class="btn btn-warning btn-sm"><i class="far fa-edit"></i> Edit</button>
+          <router-link
+            :to="{ name: `${$route.name}.edit`, params: { id: data.item.id } }"
+          >
+            <button class="btn btn-warning btn-sm">
+              <i class="far fa-edit"></i> Edit
+            </button>
           </router-link>
           <button class="btn btn-danger btn-sm" @click="del(data.item.id)">
             <i class="far fa-trash-alt"></i> Delete
@@ -96,7 +120,10 @@
 
       <div class="clear-fix paginate-group">
         <div class="float-right">
-          <pagination :data="items" @pagination-change-page="fetch"></pagination>
+          <pagination
+            :data="items"
+            @pagination-change-page="fetch"
+          ></pagination>
         </div>
       </div>
       <!-- ////////// Paginate BOTTOM //////////-->
@@ -140,7 +167,7 @@
                 รวม
               </div>
               <div class="float-right">{{ sum }} THB</div>
-
+              <div class="clear-fix">{{ Asum }} จาน</div>
               <!-- <pre>{{ details }}</pre> -->
             </div>
           </div>
@@ -151,8 +178,12 @@
           <i class="far fa-times-circle text-danger"></i> ยกเลิกแล้ว
 
           <hr />
-          <button class="btn btn-dark" @click="closeBill()">ชำระด้วยเงินสด</button>
-          <button class="btn btn-outline-primary" disabled>ชำระด้วยพร้อมเพย์</button>
+          <button class="btn btn-dark" @click="closeBill()">
+            ชำระด้วยเงินสด
+          </button>
+          <button class="btn btn-outline-primary" disabled>
+            ชำระด้วยพร้อมเพย์
+          </button>
         </div>
       </b-modal>
       <!-- ////////// SWOWING //////////-->
@@ -161,69 +192,83 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   data: () => ({
-    qr: '',
-    bill_id: '',
-    pageTitle: 'Table',
+    qr: "",
+    bill_id: "",
+    pageTitle: "Table",
     details: false,
     items: {},
     showItem: 10,
     showItemOptions: [
-      { v: 10, t: '10' },
-      { v: 25, t: '25' },
-      { v: 50, t: '50' },
-      { v: 100, t: '100' }
+      { v: 10, t: "10" },
+      { v: 25, t: "25" },
+      { v: 50, t: "50" },
+      { v: 100, t: "100" }
     ],
-    q: '',
-    sortBy: 'desc',
+    q: "",
+    sortBy: "desc",
     fields: [
-      { key: 'id', sortable: true, sortDirection: 'desc' },
-      'name',
-      { key: 'created_at_text', label: 'Created At' },
-      { key: 'updated_at_text', label: 'Updated At' },
+      { key: "id", sortable: true, sortDirection: "desc" },
+      "name",
+      { key: "created_at_text", label: "Created At" },
+      { key: "updated_at_text", label: "Updated At" },
 
-      'actions'
+      "actions"
     ]
   }),
   computed: {
     pageName() {
-      return this.$route.name.split('.')[0]
+      return this.$route.name.split(".")[0];
     },
     sum() {
-      var sum = 0
-      console.log('load sum')
+      var sum = 0;
+      // console.log("load sum");
       if (this.details) {
         if (this.details.details.length) {
-          console.log('String')
+          // console.log("String");
           this.details.details.forEach(detail => {
-            sum += detail.price_sum
-          })
+            sum += detail.price_sum;
+          });
         }
       }
-      return sum
+      return sum;
+    },
+    Asum() {
+      var Asum = 0;
+      console.log("load Asum");
+      if (this.details) {
+        if (this.details.details.length) {
+          // console.log("String");
+          this.details.details.forEach(detail => {
+            console.log(detail);
+            Asum += detail.amount;
+          });
+        }
+      }
+      return Asum;
     }
   },
   methods: {
     showQr(qr) {
-      this.qr = qr
-      this.$refs['qrTable'].show()
+      this.qr = qr;
+      this.$refs["qrTable"].show();
     },
     showReceipt(bill) {
-      this.bill_id = bill.id
-      this.details = bill
-      this.$refs['receipt'].show()
+      this.bill_id = bill.id;
+      this.details = bill;
+      this.$refs["receipt"].show();
     },
     async closeBill(bill_id) {
       const { data } = await axios.post(this.$api(`closebill`), {
         bill_id: this.bill_id
-      })
-      await this.fetch()
-      this.$refs['receipt'].hide()
+      });
+      await this.fetch();
+      this.$refs["receipt"].hide();
 
-      console.log(data)
+      console.log(data);
     },
     async fetch(page = 1) {
       const { data } = await axios.get(this.$api(this.pageName), {
@@ -233,32 +278,38 @@ export default {
           q: this.q,
           sortBy: this.sortBy
         }
-      })
-      this.items = data.items
+      });
+      this.items = data.items;
     },
     async del(id) {
-      var result = confirm('Are you sure to delete this item?')
+      var result = confirm("Are you sure to delete this item?");
       if (result) {
-        const { data } = await axios.post(this.$api(this.pageName + `/${id}/delete`), {
-          id
-        })
+        const { data } = await axios.post(
+          this.$api(this.pageName + `/${id}/delete`),
+          {
+            id
+          }
+        );
 
-        this.fetch()
+        this.fetch();
       }
     },
     async kick(id) {
-      var result = confirm('Are you sure to Kick this table?')
+      var result = confirm("Are you sure to Kick this table?");
       if (result) {
-        const { data } = await axios.post(this.$api(this.pageName + `/${id}/kick`), {
-          id
-        })
+        const { data } = await axios.post(
+          this.$api(this.pageName + `/${id}/kick`),
+          {
+            id
+          }
+        );
 
-        this.fetch()
+        this.fetch();
       }
     }
   },
   created() {
-    this.fetch()
+    this.fetch();
   }
-}
+};
 </script>

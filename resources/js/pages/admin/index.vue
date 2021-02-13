@@ -2,7 +2,10 @@
   <div>
     <div class="clearfix">
       <div class="wrapper-abc">
-        <div class="float-left" style="width: 300px; abackground-color: #2a2a2e; height: 100vh">
+        <div
+          class="float-left"
+          style="width: 300px; abackground-color: #2a2a2e; height: 100vh"
+        >
           <div class="wrapper-sidebar">
             <sidebar-menu :menu="menu" width="300" class="bg-admin">
               <div slot="header" class="text-center pt-3 text-white">
@@ -10,13 +13,18 @@
                 <div class="mt-2">จัดการร้านค้า</div>
                 <hr />
 
-                <button class="btn btn-outline-light" @click="logout">Log Out</button>
+                <button class="btn btn-outline-light" @click="logout">
+                  Log Out
+                </button>
                 <hr />
               </div>
             </sidebar-menu>
           </div>
         </div>
-        <div class="float-left" style="width: calc(100% - 300px); height: 100vh; overflow: scroll">
+        <div
+          class="float-left"
+          style="width: calc(100% - 300px); height: 100vh; overflow: scroll"
+        >
           <child v-if="auth.restaurant_id" />
           <div v-else>
             <div class="m-4">
@@ -33,7 +41,7 @@
 </template>
 
 <script>
-import { SidebarMenu } from 'vue-sidebar-menu'
+import { SidebarMenu } from "vue-sidebar-menu";
 
 export default {
   components: {
@@ -43,41 +51,41 @@ export default {
     menu: [
       {
         header: true,
-        title: 'Loading...',
+        title: "Loading...",
         hiddenOnCollapse: true
       },
       {
-        href: '/admin',
-        title: 'Dashboard',
-        icon: 'fas fa-home'
+        href: "/admin",
+        title: "Dashboard",
+        icon: "fas fa-home"
       },
       {
-        href: '/admin/orders',
-        title: 'Orders',
-        icon: 'fas fa-clipboard-check'
+        href: "/admin/orders",
+        title: "Orders",
+        icon: "fas fa-clipboard-check"
       },
       {
-        href: '/admin/promotions',
-        title: 'Promotion',
-        icon: 'fas fa-ad'
+        href: "/admin/promotions",
+        title: "Promotion",
+        icon: "fas fa-ad"
       },
       {
-        href: '/admin/tables',
-        title: 'Table',
-        icon: 'fas fa-table'
+        href: "/admin/tables",
+        title: "Table",
+        icon: "fas fa-table"
       },
 
       {
-        title: 'Food',
-        icon: 'fas fa-utensils',
+        title: "Food",
+        icon: "fas fa-utensils",
         child: [
           {
-            href: '/admin/categories',
-            title: 'Category'
+            href: "/admin/categories",
+            title: "Category"
           },
           {
-            href: '/admin/foods',
-            title: 'Food List'
+            href: "/admin/foods",
+            title: "Food List"
           }
         ]
       }
@@ -86,18 +94,18 @@ export default {
   methods: {
     async logout() {
       // Log out the user.
-      await this.$store.dispatch('auth/logout')
+      await this.$store.dispatch("auth/logout");
 
       // Redirect to login.
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: "login" });
     }
   },
   created() {
     if (this.auth.restaurant) {
-      this.menu[0].title = `ร้าน ${this.auth.restaurant.name}`
+      this.menu[0].title = `ร้าน ${this.auth.restaurant.name}`;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -125,7 +133,7 @@ body {
   display: none !important;
 }
 .v-sidebar-menu .vsm--toggle-btn:after {
-  content: '';
+  content: "";
 }
 .wrapper-sidebar {
   top: 0;

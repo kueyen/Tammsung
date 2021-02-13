@@ -71,7 +71,9 @@ class BillController extends Controller
                     'type' => 'text',
                     'text' => "ทำการสั่งอาหารสำเร็จ กรุณารออาหารสักครู่ | เลขบิล#{$bill_id}"
                 ]
-            ]
+            ],
+            'type' => 'image',
+            "originalContentUrl" => ''
         );
 
         $post_body = json_encode($data, JSON_UNESCAPED_UNICODE);
