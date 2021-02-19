@@ -111,7 +111,7 @@ class WebhookController extends Controller
         return $this->bot
             ->addImageScanQR(
                 'กรุณาทำการสแกน Qr Code ของโต๊ะอาหาร ก่อนใช้งานฟังชันดังกล่าว',
-                url('images/qrcode.jpg'),
+                url('images/qrcode.jpg?v=2'),
                 30,
                 26
             )

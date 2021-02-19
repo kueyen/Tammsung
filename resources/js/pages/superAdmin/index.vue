@@ -2,7 +2,10 @@
   <div>
     <div class="clearfix">
       <div class="wrapper-abc">
-        <div class="float-left" style="width: 300px; abackground-color: #2a2a2e; height: 100vh">
+        <div
+          class="float-left"
+          style="width: 300px; abackground-color: #2a2a2e; height: 100vh"
+        >
           <div class="wrapper-sidebar">
             <sidebar-menu :menu="menu" width="300" class="bg-admin">
               <div slot="header" class="text-center pt-3 text-white">
@@ -10,13 +13,18 @@
                 <div class="mt-2">Super Admin</div>
                 <hr />
 
-                <button class="btn btn-outline-light" @click="logout">Log Out</button>
+                <button class="btn btn-outline-light" @click="logout">
+                  Log Out
+                </button>
                 <hr />
               </div>
             </sidebar-menu>
           </div>
         </div>
-        <div class="float-left" style="width: calc(100% - 300px); height: 100vh; overflow: scroll">
+        <div
+          class="float-left"
+          style="width: calc(100% - 300px); height: 100vh; overflow: scroll"
+        >
           <child />
         </div>
       </div>
@@ -25,7 +33,7 @@
 </template>
 
 <script>
-import { SidebarMenu } from 'vue-sidebar-menu'
+import { SidebarMenu } from "vue-sidebar-menu";
 
 export default {
   components: {
@@ -34,29 +42,39 @@ export default {
   data: () => ({
     menu: [
       {
-        href: '/superAdmin',
-        title: 'Dashboard',
-        icon: 'fas fa-home'
+        href: "/superAdmin",
+        title: "Dashboard",
+        icon: "fas fa-home"
       },
 
       {
-        href: '/superAdmin/sa_promotions',
-        title: 'Promotion',
-        icon: 'fas fa-ad'
+        href: "/superAdmin/sa_promotions",
+        title: "Promotion",
+        icon: "fas fa-ad"
+      },
+      {
+        href: "/superAdmin/restaurant_admins",
+        title: "Restaurant",
+        icon: "fas fa-ad"
+      },
+      {
+        href: "/superAdmin/sync_accounts",
+        title: "Sync Account",
+        icon: "fas fa-user"
       }
     ]
   }),
   methods: {
     async logout() {
       // Log out the user.
-      await this.$store.dispatch('auth/logout')
+      await this.$store.dispatch("auth/logout");
 
       // Redirect to login.
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: "login" });
     }
   },
   created() {}
-}
+};
 </script>
 
 <style lang="scss">
@@ -84,7 +102,7 @@ body {
   display: none !important;
 }
 .v-sidebar-menu .vsm--toggle-btn:after {
-  content: '';
+  content: "";
 }
 .wrapper-sidebar {
   top: 0;

@@ -54,12 +54,15 @@ Route::post('addbill', 'BillController@addBill');
 Route::post('closebill', 'BillController@closeBill');
 Route::get('testjson', 'BillController@test');
 Route::get('test', 'Line\WebhookController@test');
+Route::get('dashboard', 'DashboardController@index');
 
 crud('foods', 'FoodController');
 crud('categories', 'CategoryController');
 crud('tables', 'TableController');
 crud('orders', 'OrderController');
 crud('promotions', 'PromotionController');
+crud('restaurant_admins', 'RestaurantAdminController');
+crud('sync_accounts', 'SyncAccountController');
 
 crud('sa_promotions', 'PromotionController');
 Route::post("sa_promotions/{id}/push", "PromotionController@push");

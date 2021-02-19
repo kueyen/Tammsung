@@ -16,6 +16,11 @@ class Food extends Model
         return $this->belongsTo('App\Category');
     }
 
+    public function bill_details()
+    {
+        return $this->hasMany('App\BillDetail');
+    }
+
     public function getCreatedAtTextAttribute()
     {
         return $this->created_at ? \Carbon\Carbon::parse($this->created_at)->format('d/m/Y H:i:s') : '-';

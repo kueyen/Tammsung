@@ -79,6 +79,11 @@ export default [
         name: 'adminHome',
         component: page('admin/adminDashboard.vue')
       },
+        {
+        path: 'setting/password',
+        name: 'setting.password',
+        component: page('admin/changePassword.vue')
+      },
       ...cruGen('categories', 'categories'),
       ...cruGen('foods', 'foods'),
       ...cruGen('tables', 'tables'),
@@ -99,7 +104,9 @@ export default [
         component: page('superAdmin/adminDashboard.vue')
       },
       ...cruGen('sa_promotions', 'sa_promotions','superAdmin'),
-      
+      ...cruGen('restaurant_admins', 'restaurant_admins','superAdmin'),
+            ...cruGen('sync_accounts', 'sync_accounts','superAdmin'),
+
 
 
     ]

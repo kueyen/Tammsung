@@ -88,6 +88,11 @@ export default {
             title: "Food List"
           }
         ]
+      },
+      {
+        href: "/admin/setting/password",
+        title: "Change Password",
+        icon: "fas fa-lock"
       }
     ]
   }),
