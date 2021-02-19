@@ -40,13 +40,18 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function getCreatedAtTextAttribute()
+    {
+        return $this->created_at ? \Carbon\Carbon::parse($this->created_at)->format('d/m/Y H:i:s') : '-';
+    }
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
     protected $appends = [
-        'photo_url',
+        'photo_url', 'created_at_text'
     ];
 
     /**
